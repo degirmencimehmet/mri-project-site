@@ -147,6 +147,8 @@ a:focus-visible,
 .people .name { font-weight: 600; }
 .people .role { color: var(--muted); font-size: 0.93rem; }
 .advisors-head { margin-top: 64px; }
+.team-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.team-head p { margin: 0; color: var(--muted); }
 
 /* Footer */
 .site-footer { border-top: 1px solid var(--rule); padding: 32px 0; color: var(--muted); font-size: 0.9rem; }
