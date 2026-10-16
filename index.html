@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Intelligent MRI Image Analysis and Automated Report Generation System</title>
+  <meta name="description" content="CMPE 491/492 Senior Design Project at TED University: an AI-assisted decision-support system that analyzes spine MRI and drafts structured radiology reports.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top">
+      <img src="assets/favicon.svg" alt="" width="28" height="28">
+      <span>Spine MRI Reporting</span>
+    </a>
+    <nav aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#approach">Approach</a>
+      <a href="#reports">Reports</a>
+      <a href="#team">Team</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <p class="course">TED University · CMPE 491 / 492 Senior Design Project · 2026–2027</p>
+        <h1>Intelligent MRI Image Analysis and Automated Report Generation System</h1>
+        <p class="lede">A web-based decision-support prototype that analyzes spine MRI, highlights selected abnormalities and drafts a structured radiology report for the radiologist to review, edit and approve.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#reports">Read the reports</a>
+          <a class="btn btn-ghost" href="reports/D1-Project-Proposal.pdf">Project proposal (PDF)</a>
+        </div>
+      </div>
+
+      <figure class="viewer" aria-label="Illustration of a sagittal lumbar spine MRI with one disc annotated">
+        <div class="viewer-bar">
+          <span>Sagittal T2 · Lumbar</span>
+          <span>Illustration</span>
+        </div>
+        <svg viewBox="0 0 360 440" role="img" aria-hidden="true">
+          <defs>
+            <radialGradient id="tissue" cx="50%" cy="45%" r="70%">
+              <stop offset="0" stop-color="#2a3038"/>
+              <stop offset="1" stop-color="#0e1115"/>
+            </radialGradient>
+            <linearGradient id="bone" x1="0" x2="1">
+              <stop offset="0" stop-color="#6f7782"/>
+              <stop offset="1" stop-color="#9aa2ad"/>
+            </linearGradient>
+          </defs>
+          <rect width="360" height="440" fill="url(#tissue)"/>
+
+          <!-- spinal canal (CSF, bright on T2) -->
+          <path d="M214 20 C 236 120, 240 230, 226 330 S 206 420, 214 440"
+                fill="none" stroke="#c9d2dc" stroke-width="20" stroke-linecap="round" opacity=".85"/>
+          <path d="M214 20 C 236 120, 240 230, 226 330 S 206 420, 214 440"
+                fill="none" stroke="#8e98a4" stroke-width="7" stroke-linecap="round" opacity=".6"/>
+
+          <!-- vertebral bodies L1–S1 with discs -->
+          <g class="vert" fill="url(#bone)">
+            <rect x="112" y="24"  width="86" height="52" rx="9" transform="rotate(-4 155 50)"/>
+            <rect x="120" y="96"  width="88" height="54" rx="9" transform="rotate(-1 164 123)"/>
+            <rect x="124" y="170" width="90" height="56" rx="9" transform="rotate(2 169 198)"/>
+            <rect x="120" y="246" width="90" height="56" rx="9" transform="rotate(6 165 274)"/>
+            <rect x="106" y="322" width="90" height="54" rx="9" transform="rotate(14 151 349)"/>
+          </g>
+          <g fill="#d7dee6" opacity=".9">
+            <ellipse cx="160" cy="86"  rx="40" ry="7" transform="rotate(-2 160 86)"/>
+            <ellipse cx="167" cy="160" rx="42" ry="7"/>
+            <ellipse cx="169" cy="236" rx="42" ry="7" transform="rotate(4 169 236)"/>
+          </g>
+          <!-- L4–L5: dark (degenerated) disc with posterior protrusion -->
+          <path class="lesion" d="M126 309 Q 164 300 206 312 Q 222 316 226 312 Q 230 322 220 326 Q 196 328 128 320 Z" fill="#59616b"/>
+          <!-- L5–S1 -->
+          <ellipse cx="150" cy="390" rx="38" ry="6" transform="rotate(18 150 390)" fill="#5d6570"/>
+
+          <!-- annotation -->
+          <g class="annot">
+            <rect x="116" y="292" width="124" height="44" rx="3" fill="none"
+                  stroke="#f2b33d" stroke-width="2" stroke-dasharray="6 4"/>
+            <line x1="240" y1="302" x2="276" y2="270" stroke="#f2b33d" stroke-width="1.5"/>
+            <text x="250" y="252" fill="#f2b33d" font-size="13" font-weight="600">L4–L5</text>
+            <text x="250" y="266" fill="#e9edf2" font-size="11">disc protrusion</text>
+          </g>
+          <g fill="#9aa2ad" font-size="11">
+            <text x="20" y="58">L1</text><text x="20" y="130">L2</text>
+            <text x="20" y="204">L3</text><text x="20" y="280">L4</text>
+            <text x="20" y="356">L5</text>
+          </g>
+        </svg>
+        <figcaption>Schematic only. Not patient data and not model output.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="wrap two-col">
+      <h2>About the project</h2>
+      <div class="prose">
+        <p>Magnetic Resonance Imaging is widely used to evaluate spinal disorders such as intervertebral disc herniation, disc degeneration and spinal stenosis. Reading an examination means reviewing several image sequences and anatomical structures, so reporting is time-consuming, especially in facilities with high imaging workloads.</p>
+        <p>This project develops a web-based clinical decision-support system that analyzes spine MRI, identifies selected abnormalities and generates a structured draft report. The aim is to help radiologists interpret examinations more efficiently, reduce repetitive manual work and make reports more consistent.</p>
+        <p class="note">The system supports radiologists; it does not replace them. It is built as a research prototype to evaluate the feasibility of AI-assisted spine MRI interpretation and automated reporting.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Findings -->
+  <section class="section section-tint">
+    <div class="wrap two-col">
+      <h2>Target findings</h2>
+      <dl class="findings">
+        <div>
+          <dt>Disc herniation</dt>
+          <dd>Displacement of disc material beyond the normal margins of the intervertebral space.</dd>
+        </div>
+        <div>
+          <dt>Disc degeneration</dt>
+          <dd>Loss of disc hydration and height, seen as reduced signal on T2-weighted images.</dd>
+        </div>
+        <div>
+          <dt>Spinal canal narrowing</dt>
+          <dd>Stenosis of the canal that may compress neural structures, with measurements where the models support them.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Approach -->
+  <section id="approach" class="section">
+    <div class="wrap">
+      <div class="two-col">
+        <h2>How it works</h2>
+        <p class="prose">Deep learning models, including convolutional neural networks and segmentation architectures such as U-Net, will be investigated and trained on publicly available, annotated spine MRI datasets.</p>
+      </div>
+      <ol class="pipeline">
+        <li>
+          <h3>Upload and preprocess</h3>
+          <p>MRI images are uploaded through the web interface and normalized for analysis.</p>
+        </li>
+        <li>
+          <h3>Detect and segment</h3>
+          <p>Models identify anatomical structures and abnormalities and extract measurable information.</p>
+        </li>
+        <li>
+          <h3>Draft the report</h3>
+          <p>Findings fill predefined medical templates, with a language model constrained to the detected findings where appropriate.</p>
+        </li>
+        <li>
+          <h3>Review and approve</h3>
+          <p>The radiologist examines highlighted findings, edits the draft and approves it before export.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Reports -->
+  <section id="reports" class="section section-tint">
+    <div class="wrap">
+      <div class="two-col">
+        <h2>Reports and deliverables</h2>
+        <p class="prose">Every report is published here as soon as it is submitted. Deadlines are Fridays at 23:59 unless noted.</p>
+      </div>
+      <div class="table-scroll">
+        <table class="deliverables">
+          <thead>
+            <tr><th scope="col">No.</th><th scope="col">Deliverable</th><th scope="col">Due</th><th scope="col">Document</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>D1</td><td>Project Proposal</td><td>16 Oct 2026</td>
+              <td><a class="doc" href="reports/D1-Project-Proposal.pdf">Download PDF</a></td>
+            </tr>
+            <tr>
+              <td>D2</td><td>Project Specifications Report</td><td>23 Oct 2026</td>
+              <td><span class="pending">Not yet published</span></td>
+            </tr>
+            <tr>
+              <td>D3</td><td>TODO / Backlog, version 1</td><td>23 Oct 2026</td>
+              <td><span class="pending">Not yet published</span></td>
+            </tr>
+            <tr>
+              <td>D4</td><td>Analysis Report</td><td>20 Nov 2026</td>
+              <td><span class="pending">Not yet published</span></td>
+            </tr>
+            <tr>
+              <td>D5</td><td>TODO / Backlog, version 2</td><td>20 Nov 2026</td>
+              <td><span class="pending">Not yet published</span></td>
+            </tr>
+            <tr>
+              <td>D6</td><td>High-Level Design Report</td><td>31 Dec 2026 (Thu)</td>
+              <td><span class="pending">Not yet published</span></td>
+            </tr>
+            <tr>
+              <td>D7</td><td>TODO / Backlog, version 3</td><td>31 Dec 2026 (Thu)</td>
+              <td><span class="pending">Not yet published</span></td>
+            </tr>
+            <tr>
+              <td>D8</td><td>Oral and poster presentation, demonstration</td><td>4–17 Jan 2027</td>
+              <td><span class="pending">Date to be announced</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section id="team" class="section">
+    <div class="wrap">
+      <div class="two-col">
+        <h2>Team</h2>
+        <p class="prose">Computer Engineering, TED University.</p>
+      </div>
+      <ul class="people">
+        <li><span class="name">Mehmet Değirmenci</span><span class="role">Computer Engineering</span></li>
+        <li><span class="name">İrem Nur Koçak</span><span class="role">Computer Engineering</span></li>
+        <li><span class="name">Zeynep Nil Usluoğlu</span><span class="role">Computer Engineering</span></li>
+        <li><span class="name">Emirhan Yiğit</span><span class="role">Computer Engineering</span></li>
+      </ul>
+
+      <div class="two-col advisors-head">
+        <h2>Supervisor and jury</h2>
+      </div>
+      <ul class="people">
+        <li><span class="name">Dr. Mert Burkay Çöteli</span><span class="role">Supervisor</span></li>
+        <li><span class="name">Dr. Mehmet Evren Coşkun</span><span class="role">Jury member</span></li>
+        <li><span class="name">Dr. Eren Ulu</span><span class="role">Jury member</span></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p>Research prototype developed for CMPE 491 / 492 at TED University, Ankara. Not intended for clinical use.</p>
+    <p>© 2026 Project team</p>
+  </div>
+</footer>
+
+</body>
+</html>
